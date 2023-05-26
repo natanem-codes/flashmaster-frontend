@@ -17,7 +17,8 @@ const AddFlashCard = () => {
 
     const handleSubmit = async e => {
         e.preventDefault()
-        const {data} = await axios.post(`http://localhost:5000/flashcards`, {...form, deck:id})
+        // const {data} = await axios.post(`http://localhost:5000/flashcards`, {...form, deck:id})
+        const {data} = await axios.post(`https://flashmaster-ps3e.onrender.com/flashcards`, {...form, deck:id})
         console.log(data)
         navigate(`/decks/${id}`)
 

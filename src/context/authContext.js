@@ -43,7 +43,8 @@ const AuthContextProvider = ({children}) => {
 
     const login = async (formData) => {
         try {
-            const {data} = await axios.post("http://localhost:5000/auth/login", formData)
+            // const {data} = await axios.post("http://localhost:5000/auth/login", formData)
+            const {data} = await axios.post("https://flashmaster-ps3e.onrender.com/auth/login", formData)
             dispatch({type: "LOGIN", payload: data})
         } catch (error) {
             console.log(error.message)
@@ -53,7 +54,8 @@ const AuthContextProvider = ({children}) => {
 
     const register = async (formData) => {
         try {
-            const {data} = await axios.post(`http://localhost:5000/auth/register`, formData)
+            // const {data} = await axios.post(`http://localhost:5000/auth/register`, formData)
+            const {data} = await axios.post(`https://flashmaster-ps3e.onrender.com/auth/register`, formData)
             dispatch({type: "LOGIN", payload: data})
         } catch (error) {
             console.log(error.message)

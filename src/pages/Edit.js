@@ -55,8 +55,10 @@ const Edit = () => {
     useEffect(() => {
         titleRef.current.focus()
         const fetchFlashCard = async () => {
-            const { data: {title, description, author} } = await axios(`http://localhost:5000/decks/${id}`)
-            const { data:flashcards} = await axios(`http://localhost:5000/flashcards/?deckId=${id}`)
+            // const { data: {title, description, author} } = await axios(`http://localhost:5000/decks/${id}`)
+            const { data: {title, description, author} } = await axios(`https://flashmaster-ps3e.onrender.com/decks/${id}`)
+            // const { data:flashcards} = await axios(`http://localhost:5000/flashcards/?deckId=${id}`)
+            const { data:flashcards} = await axios(`https://flashmaster-ps3e.onrender.com/flashcards/?deckId=${id}`)
             if(author._id !== user._id) {
                 navigate(`/decks/${id}`)
                 return
@@ -75,7 +77,8 @@ const Edit = () => {
 
     const removeFlashcard = async (id) => {
         try {
-            const {data} = await axios.delete(`http://localhost:5000/flashcards/${id}`, {
+            // const {data} = await axios.delete(`http://localhost:5000/flashcards/${id}`, {
+            const {data} = await axios.delete(`https://flashmaster-ps3e.onrender.com/flashcards/${id}`, {
                 headers: {
                     Authorization: `Bearer ${user.token}`
                 }
@@ -96,7 +99,8 @@ const Edit = () => {
             definition: form.newDefinition,
             deck: id
         }
-        const {data: newFlashcard} = await axios.post(`http://localhost:5000/flashcards`, data, {
+        // const {data: newFlashcard} = await axios.post(`http://localhost:5000/flashcards`, data, {
+        const {data: newFlashcard} = await axios.post(`https://flashmaster-ps3e.onrender.com/flashcards`, data, {
             headers: {
                 Authorization: `Bearer ${user.token}`
             }
@@ -110,7 +114,8 @@ const Edit = () => {
             addFlashcard()
         }
         e.preventDefault()
-        await axios.patch(`http://localhost:5000/decks/${id}`, {title:state.title, description: state.description}, {
+        // await axios.patch(`http://localhost:5000/decks/${id}`, {title:state.title, description: state.description}, {
+        await axios.patch(`https://flashmaster-ps3e.onrender.com/decks/${id}`, {title:state.title, description: state.description}, {
             headers: {
                 Authorization: `Bearer ${user.token}`
             }

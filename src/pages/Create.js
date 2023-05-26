@@ -29,7 +29,8 @@ const Create = () => {
   const handleSubmit = async e => {
     e.preventDefault()
     
-    const {data} = await axios.post(`http://localhost:5000/decks`, form, {
+    // const {data} = await axios.post(`http://localhost:5000/decks`, form, {
+    const {data} = await axios.post(`https://flashmaster-ps3e.onrender.com/decks`, form, {
       headers: {
         Authorization: `Bearer ${state.user.token}`
       }

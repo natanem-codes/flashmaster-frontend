@@ -53,9 +53,12 @@ const Detail = () => {
     useEffect(() => {
         const fetchFlashCard = async () => {
             flashcardDispatch({type: "LOADING"})
-            const { data:deck } = await axios(`http://localhost:5000/decks/${id}`)
+            // const { data:deck } = await axios(`https://flashmaster-ps3e.onrender.com/decks/${id}`)
+            // const { data:deck } = await axios(`http://localhost:5000/decks/${id}`)
+            const { data:deck } = await axios(`https://flashmaster-ps3e.onrender.com/decks/${id}`)
             flashcardDispatch({type: "GET__DECK", payload: deck})
-            const { data:flashcards} = await axios(`http://localhost:5000/flashcards/?deckId=${id}`)
+            // const { data:flashcards} = await axios(`http://localhost:5000/flashcards/?deckId=${id}`)
+            const { data:flashcards} = await axios(`https://flashmaster-ps3e.onrender.com/flashcards/?deckId=${id}`)
 
             flashcardDispatch({type: "GET__FLASHCARDS", payload: flashcards})
         }
@@ -63,7 +66,8 @@ const Detail = () => {
     },[id])
 
     const handleDelete = async () => {
-       const {data} = await axios.delete(`http://localhost:5000/decks/${id}`, {
+      //  const {data} = await axios.delete(`http://localhost:5000/decks/${id}`, {
+       const {data} = await axios.delete(`https://flashmaster-ps3e.onrender.com/decks/${id}`, {
           headers: {
             Authorization: `Bearer ${user.token}`
           }
@@ -75,7 +79,8 @@ const Detail = () => {
     }
     
     const copyDeck = async () => {
-      const {data:deck} = await axios.post(`http://localhost:5000/decks/${id}/copy`,{} ,{
+      // const {data:deck} = await axios.post(`http://localhost:5000/decks/${id}/copy`,{} ,{
+      const {data:deck} = await axios.post(`https://flashmaster-ps3e.onrender.com/decks/${id}/copy`,{} ,{
         headers: {
           Authorization: `Bearer ${user.token}`
         }
@@ -87,7 +92,8 @@ const Detail = () => {
     }
 
     const addToFavorites = async () => {
-      const {data:deck} = await axios.post(`http://localhost:5000/decks/${id}/addToFavorites`,{} ,{
+      // const {data:deck} = await axios.post(`http://localhost:5000/decks/${id}/addToFavorites`,{} ,{
+      const {data:deck} = await axios.post(`https://flashmaster-ps3e.onrender.com/decks/${id}/addToFavorites`,{} ,{
         headers: {
           Authorization: `Bearer ${user.token}`
         }

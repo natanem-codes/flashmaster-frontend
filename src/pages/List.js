@@ -10,7 +10,8 @@ const List = () => {
   useEffect(() => {
         const fetchFlashCards = async () => {
           dispatch({type: "LOADING"})
-          const {data} = await axios.get("http://localhost:5000/decks")
+          // const {data} = await axios.get("http://localhost:5000/decks")
+          const {data} = await axios.get("https://flashmaster-ps3e.onrender.com/decks")
           console.log(data)
           dispatch({type: "FETCH_DECKS", payload: data})
           }

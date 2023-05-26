@@ -12,7 +12,8 @@ const Profile =  () => {
     useEffect(() => {
         const getProfile = async () => {
             console.log("profile.......")
-            const {data:user} = await axios.get("http://localhost:5000/users/me", {
+            // const {data:user} = await axios.get("http://localhost:5000/users/me", {
+            const {data:user} = await axios.get("https://flashmaster-ps3e.onrender.com/users/me", {
                 headers: {
                     Authorization: `Bearer ${state.user.token}`
                 }
@@ -22,7 +23,8 @@ const Profile =  () => {
             setUser(user)
         }
         const getDecks = async () => {
-                const {data:decks} = await axios.get("http://localhost:5000/decks/my-decks",{
+                // const {data:decks} = await axios.get("http://localhost:5000/decks/my-decks",{
+                const {data:decks} = await axios.get("https://flashmaster-ps3e.onrender.com/decks/my-decks",{
                 headers: {
                     Authorization: `Bearer ${state.user.token}`
                 }
