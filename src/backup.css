@@ -1,0 +1,527 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+main {
+    max-width: 1100px;
+    height: 100%;
+    margin: auto;
+    padding: 1rem;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    max-width: 1100px;
+    margin: auto;
+    background-color: #333;
+    color: #fff;
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    list-style: none;
+    padding: 1rem;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown__menu {
+    min-width: 120px;
+    max-width: 350px;
+    position: absolute;
+    padding: 1rem 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    color: #333;
+    cursor: pointer;
+    right: -1rem;
+    top: 2rem;
+}
+
+.dropdown__menu li {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+}
+
+.dropdown__menu button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown__icon {
+    font-size: 1.5rem;
+    position: absolute;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+input,
+textarea,
+select {
+    border: none;
+    outline: none;
+    background-color: none;
+    width: 100%;
+}
+
+textarea {
+    resize: none;
+}
+
+label {
+    padding: 0 1rem;
+    /* display: none; */
+}
+
+input,
+textarea {
+    resize: none;
+    padding: 1rem;
+}
+
+input:focus,
+textarea:focus {
+    border-bottom: 3px solid blue;
+}
+
+input:focus label,
+textarea:focus label {
+    display: block;
+}
+
+h2 {
+    width: max-content;
+    text-align: center;
+    margin: auto;
+}
+
+.container {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.slide__container {
+    overflow-x: hidden;
+}
+
+.controller {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.btn {
+    display: inline-block;
+    width: fit-content;
+    padding: .55rem 1.5rem;
+    border: none;
+    background-color: blue;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    border-radius: 5px;
+    transition: background-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
+}
+
+
+
+.btn:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+    background-color: rgb(52, 52, 216);
+}
+
+.btn__delete {
+    padding: .5rem 1rem;
+    border: none;
+    outline: none;
+    color: rgb(207, 65, 65);
+    cursor: pointer;
+}
+
+.btn__delete:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+    color: #fff;
+    background-color: rgb(206, 101, 101);
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+}
+
+.decks__container {
+    height: 100%;
+    width: 100%;
+    display: grid;
+}
+
+.loading {
+    align-self: center;
+    justify-self: center;
+    font-size: 2rem;
+}
+
+.decks {
+    display: grid;
+    padding: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.deck {
+    max-width: 400px;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+    border-bottom: 4px solid #fff;
+    transition: border 300ms ease-in-out;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+.deck__title {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.deck__author {
+    color: #999;
+    font-size: .8rem;
+}
+
+.deck:hover {
+    border-bottom: 4px solid blue;
+}
+
+.slide__show {
+    max-width: 550px;
+    margin: 2rem auto;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+}
+
+.flashcards__container {
+    padding: 1rem 0;
+    max-width: 800px;
+    margin: auto;
+}
+
+.flashcards__container h3 {
+    font-weight: 500;
+    color: rgb(10, 10, 54);
+    width: fit-content;
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+.flashcards {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.flashcard {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+}
+
+.term {
+    border-right: 1px solid blue;
+    padding-right: 1rem;
+}
+
+.definition {
+    padding-left: 1rem;
+}
+
+.delete__flashcard {
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: red;
+}
+
+/* .container {
+  max-width: 800px;
+  margin: auto;
+  padding: 1rem;
+} */
+/* create form */
+/* edit form */
+
+.form {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: auto;
+    gap: 1rem;
+}
+
+.input__group {
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+
+}
+
+
+
+.form__flashcard__group {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+
+.form__flashcard__group input:focus .form__flashcard__group textarea:focus {
+    border-bottom: 3px solid orange;
+}
+
+.form__flashcard__group .input__group {
+    flex: 1 0 auto;
+}
+
+.form__flashcard__group button {
+    justify-self: start;
+    align-self: flex-start;
+}
+
+/* .input__group label {
+  padding: 0 1rem;
+}
+
+.input__group input, 
+.input__group textarea{
+  padding: 1rem;
+  width: 100%;
+} */
+
+.detail__page {}
+
+.page__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 1rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.page__header div {
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.page__header p {
+    color: #888;
+}
+
+.page__body {
+    /* padding: 1rem; */
+
+}
+
+
+/* slider */
+
+.cards {
+    perspective: 1000px;
+    position: relative;
+    height: 300px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.card {
+    position: absolute;
+    opacity: 0;
+    font-size: 1.5em;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transform: translateX(50%) rotateY(-10deg);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.card.card__active {
+    cursor: pointer;
+    opacity: 1;
+    z-index: 10;
+    transform: translateX(0) rotateY(0deg);
+}
+
+.card.left {
+    transform: translateX(-50%) rotateY(10deg);
+}
+
+.inner__card {
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+    height: 100%;
+    width: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.4s ease;
+}
+
+.card.show__answer .inner__card {
+    transform: rotateX(180deg);
+}
+
+.inner__card__front,
+.inner__card__back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background: #fff;
+}
+
+.inner__card__front {
+    transform: rotateX(0deg);
+    z-index: 2;
+}
+
+.inner__card__back {
+    transform: rotateX(180deg);
+}
+
+/* .inner__card__front::after,
+.inner__card__back::after {
+  content: '\f021  Flip';
+  font-family: 'Font Awesome 5 Free', Lato, sans-serif;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #ddd;
+} */
+
+.navigation {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    margin: 20px auto;
+}
+
+.navigation .nav__btn {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.navigation p {
+    margin: 0 25px;
+}
+
+.new__flashcard__container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.show__hide__btn {
+    align-self: center;
+    font-size: 36px;
+    cursor: pointer;
+}
+
+
+/* Login & Register */
+
+.login__form,
+.register__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 800px;
+    margin: 1rem auto;
+
+}
+
+.form__error {
+    text-align: center;
+    font-size: .9rem;
+    color: red;
+}
+
+.info {
+    color: #4d4747;
+    margin: 1rem auto;
+}
+
+.info a {
+    color: blue;
+}
+
+@media screen and (max-width: 600px) {
+    .form {
+        width: 100%;
+        margin: 1rem 0;
+    }
+
+    .form__flashcard__group {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1rem;
+        background-color: limegreen;
+    }
+}
