@@ -9,8 +9,8 @@ const FlashcardItem = ({flashcard, idx, id, dispatch}) => {
     const [definitionChanged, setDefinitionChanged] = useState(false)
     const removeFlashcard = async (id) => {
         try {
-            const {data} = await axios.delete(`http://localhost:5000/flashcards/${id}`, {
-            // const {data} = await axios.delete(`https://flashmaster-ps3e.onrender.com/flashcards/${id}`, {
+            // const {data} = await axios.delete(`http://localhost:5000/flashcards/${id}`, {
+            const {data} = await axios.delete(`https://flashmaster-ps3e.onrender.com/flashcards/${id}`, {
                 headers: {
                     Authorization: `Bearer ${user.token}`
                 }
@@ -24,8 +24,8 @@ const FlashcardItem = ({flashcard, idx, id, dispatch}) => {
         if(!termChanged && !definitionChanged) return
         console.log("updating", flashcard)
         try {
-            const {data} = await axios.patch(`http://localhost:5000/flashcards/${id}`, 
-            // const {data} = await axios.patch(`https://flashmaster-ps3e.onrender.com/flashcards/${id}`, 
+            // const {data} = await axios.patch(`http://localhost:5000/flashcards/${id}`, 
+            const {data} = await axios.patch(`https://flashmaster-ps3e.onrender.com/flashcards/${id}`, 
             {
                 term: flashcard.term,
                 definition: flashcard.definition

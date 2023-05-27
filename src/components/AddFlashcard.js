@@ -32,8 +32,8 @@ const AddFlashcard = ({deckId, dispatch}) => {
             definition: form.newDefinition,
             deck: deckId
         }
-        const {data: newFlashcard} = await axios.post(`http://localhost:5000/flashcards`, data, {
-        // const {data: newFlashcard} = await axios.post(`https://flashmaster-ps3e.onrender.com/flashcards`, data, {
+        // const {data: newFlashcard} = await axios.post(`http://localhost:5000/flashcards`, data, {
+        const {data: newFlashcard} = await axios.post(`https://flashmaster-ps3e.onrender.com/flashcards`, data, {
             headers: {
                 Authorization: `Bearer ${user.token}`
             }
