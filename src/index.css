@@ -230,6 +230,7 @@ input:focus, textarea:focus {
   justify-content: space-between;
   align-items: center;
 }
+
 .deck__title {
   font-size: 1.2rem;
   font-weight: 500;
@@ -237,7 +238,7 @@ input:focus, textarea:focus {
 
 .deck__author {
   color: #888;
-  font-size: .8rem;
+  font-size: 1rem;
 }
 .flashcards__count {
   color: var(--clr-primary);
@@ -274,10 +275,10 @@ input:focus, textarea:focus {
 }
 
 /* Detail Page */
-.copy {
+.tooltip {
   position: relative;
 }
-.copy span {
+.tooltip span {
   position: absolute;
   right: 20px;
   bottom: 100%;
@@ -291,7 +292,7 @@ input:focus, textarea:focus {
   transition: transform 300ms ease-in-out;
   transform-origin: right bottom;
 }
-.copy.show__info span {
+.tooltip.show__info span {
   transform: scale(1);
 }
 .detail__body {
@@ -375,6 +376,9 @@ input:focus, textarea:focus {
 }
 .icon__delete {
   color: var(--clr-error);
+}
+.icon__fav {
+  color: var(--clr-primary);
 }
 .icon__edit:hover,
 .icon__delete:hover,

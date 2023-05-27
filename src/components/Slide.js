@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
+// import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai"
 import { MdArrowCircleLeft, MdArrowCircleRight } from "react-icons/md"
 const Slide = ({flashcards}) => {
   const [count, setCount] = useState(0)

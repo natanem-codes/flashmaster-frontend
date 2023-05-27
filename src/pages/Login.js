@@ -31,10 +31,8 @@ const Login = () => {
     <div className="container">
         <h2>Login</h2>
         <form className="form login__form" onSubmit={handleSubmit}>
-            <div className="form__error">
-                {error}
-                {state.error.message}
-            </div>
+            {state.error && <p className="error">{state.error.message}</p>}
+            {error && <p className="error">{error}</p>}
             <div className="input__group">
                 <label htmlFor="username">Username</label>
             <input type="text" name="username" id="username" value={form.username} onChange={e => updateForm(e)} onFocus={() => setError("")}/>

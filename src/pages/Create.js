@@ -3,6 +3,8 @@ import axios from "axios"
 import { flashCardContext } from "../context/FlashCardContext"
 import { Link, useNavigate } from "react-router-dom"
 import { AuthContext} from "../context/authContext"
+import { toast } from "react-toastify"
+
 const Create = () => {
   
   const titleRef = useRef()
@@ -15,6 +17,8 @@ const Create = () => {
     title: "", description: ""
   })
 
+  const [loading, setLoading] = useState(false)
+
   const handleChange = e => {
     const {name, value} = e.target
     setForm(prev => ({...prev, [name]: value}))
@@ -24,18 +28,17 @@ const Create = () => {
     titleRef.current.focus()
   },[])
 
-  
-
   const handleSubmit = async e => {
+    setLoading(true)
     e.preventDefault()
-    
     // const {data} = await axios.post(`http://localhost:5000/decks`, form, {
     const {data} = await axios.post(`https://flashmaster-ps3e.onrender.com/decks`, form, {
       headers: {
         Authorization: `Bearer ${state.user.token}`
       }
     })
-    console.log(data)
+    setLoading(false)
+    toast.success("🎉 You successfuly created a deck")
     dispatch({type: "ADD_FLASHCARD", payload: data})
     setForm({title:"", description: ""})
     navigate(`/decks/${data._id}`)
@@ -55,7 +58,7 @@ const Create = () => {
                 <label htmlFor="description">Description</label>
                 <textarea name="description" id="description" cols="30" rows="3" className="input__description" value={form.description} onChange={e => handleChange(e)}placeholder="Add a description..."></textarea>
             </div>
-        <button type="submit" className="btn btn__primary">Add</button>
+        <button type="submit" className="btn btn__primary">{loading ? "Creating..." : "Create"}</button>
       </form>
     </div>
   )

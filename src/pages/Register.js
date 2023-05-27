@@ -11,7 +11,7 @@ const initialState = {
     }
 
 const Register = () => {
-      const {state, register} = useContext(AuthContext)
+      const {register} = useContext(AuthContext)
 
     const [form, setForm] = useState(initialState)
     const [error, setError] = useState("")

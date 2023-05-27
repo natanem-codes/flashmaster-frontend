@@ -1,8 +1,10 @@
 import axios from "axios"
-import { useContext, useEffect, useReducer, useRef, useState } from "react"
+import { useContext, useEffect, useReducer, useRef } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { MdArrowBackIosNew, MdDelete, MdOutlineAddCircleOutline, MdKeyboardArrowUp, MdKeyboardArrowDown} from "react-icons/md"
+import { MdArrowBackIosNew} from "react-icons/md"
 import { AuthContext } from "../context/authContext"
+import FlashcardList from "../components/FlashcardList"
+import AddFlashcard from "../components/AddFlashcard"
 
 
 const reducer = (state, action) => {
@@ -30,22 +32,10 @@ const reducer = (state, action) => {
 
 const Edit = () => {
     const titleRef = useRef()
-    const newTermRef = useRef()
     const {id} = useParams()
     const navigate = useNavigate()
     const {state: {user}} = useContext(AuthContext)
-    const [show, setShow] = useState(false)
-
-    const [form, setForm] = useState({
-        newTerm: "",
-        newDefinition: "",
-    })
-
-    const updateForm = e => {
-        const {name, value} = e.target
-        setForm(prev => ({...prev, [name]: value}))
-    }
-
+   
     const [state, dispatch] = useReducer(reducer, {
         title: "",
         description: "",
@@ -70,49 +60,11 @@ const Edit = () => {
         fetchFlashCard()
     },[id, user._id, navigate])
 
-    useEffect(() => {
-        show && newTermRef.current.focus()
-    }, [show])
+  
 
-
-    const removeFlashcard = async (id) => {
-        try {
-            // const {data} = await axios.delete(`http://localhost:5000/flashcards/${id}`, {
-            const {data} = await axios.delete(`https://flashmaster-ps3e.onrender.com/flashcards/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${user.token}`
-                }
-            })
-            dispatch({type: "DELETE_FLASHCARD", payload: data._id})
-        } catch (error) {
-            console.log("Error removing flashcard")
-        }
-    }
-
-    const addFlashcard = async () => {
-
-        if(form.newTerm === "" || form.newDefinition === "") {
-            return
-        }
-        const data = {
-            term: form.newTerm,
-            definition: form.newDefinition,
-            deck: id
-        }
-        // const {data: newFlashcard} = await axios.post(`http://localhost:5000/flashcards`, data, {
-        const {data: newFlashcard} = await axios.post(`https://flashmaster-ps3e.onrender.com/flashcards`, data, {
-            headers: {
-                Authorization: `Bearer ${user.token}`
-            }
-        })
-        dispatch({type: "UPDATE_FLASHCARDS", payload: newFlashcard})
-        setForm({newTerm: "", newDefinition: ""})
-    }
+ 
 
     const handleSubmit = async (e) => {
-        if(form.newTerm !== "" && form.newDefinition !== "") {
-            addFlashcard()
-        }
         e.preventDefault()
         // await axios.patch(`http://localhost:5000/decks/${id}`, {title:state.title, description: state.description}, {
         await axios.patch(`https://flashmaster-ps3e.onrender.com/decks/${id}`, {title:state.title, description: state.description}, {
@@ -153,72 +105,8 @@ const Edit = () => {
                     placeholder="Add a description...">
                     </textarea>
                 </div>
-                <div className="">
-                    <h4>Flashcards</h4>
-                    {
-                    state.flashcards?.length ?
-                    <div className="container">
-                        {state.flashcards.map((flashcard, idx) => {
-                            return (
-                               <div className="form__flashcard__group" key={flashcard._id}>
-                                    <div className="input__group">
-                                        <label htmlFor="term">Term</label>
-                                        <input type="text" name="term" id="term" 
-                                            value={flashcard.term} 
-                                            onChange={e =>  dispatch({type: "UPDATE_TERM", payload: {term: e.target.value, pos: idx}})} 
-                                            className="input__title"/>
-                                    </div>
-                                    <div className="input__group">
-                                        <label htmlFor="definition">definition</label>
-                                        <input type="text" name="definition" id="definition" 
-                                            value={flashcard.definition} 
-                                            onChange={e =>  dispatch({type: "UPDATE_DEFINITION", payload: {definition: e.target.value, pos: idx}})} 
-                                            className="input__title"/>
-                                    </div> 
-                                    <button type="button" className="icon icon__delete" onClick={() => removeFlashcard(flashcard._id)}><MdDelete /></button>
-                               </div>
-                            )
-                        })}
-                    </div>
-                    :
-                    <p className="info">No flashcards</p>
-                }
-                </div>
-                <div className="">
-                     <h4>Add a flashcard  {
-                        show ? 
-                            <small 
-                                className="icon" 
-                                onClick={() => setShow(prev => !prev)}>
-                                <MdKeyboardArrowUp /> 
-                            </small>
-                            : 
-                            <small
-                                className="icon" 
-                                onClick={() => setShow(prev => !prev)}>
-                                <MdKeyboardArrowDown />
-                            </small>
-            }</h4>
-                {show && <>
-                     <div className="form__flashcard__group">
-                     <div className="input__group">
-                         <label htmlFor="newTerm">New term</label>
-                         <input type="text" name="newTerm" id="newTerm" ref={newTermRef}
-                        value={form.newTerm}
-                        onChange={e => updateForm(e)} 
-                        className="input__title"/>
-                    </div>
-                    <div className="input__group">
-                        <label htmlFor="newDefinition">New definition</label>
-                        <input type="text" name="newDefinition" id="newDefinition" 
-                        value={form.newDefinition}
-                        onChange={e => updateForm(e)} 
-                        className="input__title"/>
-                    </div> 
-                    <button type="button" className="icon icon__add" onClick={() => addFlashcard()}><MdOutlineAddCircleOutline /></button>
-                </div>
-                </>}
-                </div>
+                <FlashcardList flashcards={state.flashcards} id={id} dispatch={dispatch}/>
+                <AddFlashcard deckId={id} dispatch={dispatch}/>
                 <button type="submit" className="btn btn__secondary">Done</button>
             </form>
         </section>

@@ -6,6 +6,8 @@ import { flashCardContext } from "../context/FlashCardContext"
 import Flashcard from "../components/Flashcard"
 import { MdArrowBackIosNew, MdDelete, MdEdit, MdContentCopy, MdStarBorder, MdStar} from "react-icons/md"
 import { AuthContext } from "../context/authContext"
+import Loader from "../components/Loader"
+import {toast} from "react-toastify"
 
 
 const reducer = (state, action) => {
@@ -36,7 +38,7 @@ const reducer = (state, action) => {
 
 const Detail = () => {
     const {dispatch} = useContext(flashCardContext)
-    const {state: {user}} = useContext(AuthContext)
+    const {state: {user}, addToFavorites} = useContext(AuthContext)
     const {id} = useParams()
     const navigate = useNavigate()
 
@@ -51,9 +53,8 @@ const Detail = () => {
     })
 
     useEffect(() => {
+        flashcardDispatch({type: "LOADING"})
         const fetchFlashCard = async () => {
-            flashcardDispatch({type: "LOADING"})
-            // const { data:deck } = await axios(`https://flashmaster-ps3e.onrender.com/decks/${id}`)
             // const { data:deck } = await axios(`http://localhost:5000/decks/${id}`)
             const { data:deck } = await axios(`https://flashmaster-ps3e.onrender.com/decks/${id}`)
             flashcardDispatch({type: "GET__DECK", payload: deck})
@@ -72,7 +73,7 @@ const Detail = () => {
             Authorization: `Bearer ${user.token}`
           }
        })
-
+       toast.success("🎉 You successfully deleted the deck")
        dispatch({type: "DELETE__ONE", payload: data._id})
 
       navigate("/decks")
@@ -86,42 +87,36 @@ const Detail = () => {
         }
       }
       )
+      toast.success(`🎉 You've successfully Copied ${deck.title} to your profile `)
       dispatch({type: "ADD_FLASHCARD", payload: deck})
-      alert("copy successful!")
       navigate(`/decks/${deck._id}`)
     }
 
-    const addToFavorites = async () => {
-      // const {data:deck} = await axios.post(`http://localhost:5000/decks/${id}/addToFavorites`,{} ,{
-      const {data:deck} = await axios.post(`https://flashmaster-ps3e.onrender.com/decks/${id}/addToFavorites`,{} ,{
-        headers: {
-          Authorization: `Bearer ${user.token}`
-        }
-      }
-      )
-      console.log(deck)
-    }
+
 
 
   return (
     <div className="detail__page">
         <Link to={"/decks"} className="link"><MdArrowBackIosNew /> Decks</Link>
-        <header className="page__header">
+       {!state.loading && 
+       <header className="page__header">
           <div>
             <h3>{state.title}</h3>
-            <div className="deck__author">{state.author.username}</div>
+            <div className="deck__author">Created by {state.author.username}</div>
           </div>
           {
             user._id === state.author._id ?
           <>
             <Link to={`/decks/${id}/edit`} className="icon icon__edit"><MdEdit /></Link>
             <button className="icon icon__delete" onClick={handleDelete}><MdDelete /></button>
+ 
             {
-            user.favorites?.includes(id) 
+            
+            user.favorites.includes(id)
             ?
-            <button className="icon" onClick={addToFavorites}><MdStar /></button>
+            <button className="icon" onClick={() => addToFavorites(id)}><MdStar className="icon icon__fav"/></button>
             :
-            <button className="icon" onClick={addToFavorites}><MdStarBorder /></button>
+            <button className="icon" onClick={() => addToFavorites(id)}><MdStarBorder className="icon "/></button>
             
             }
           </>
@@ -130,17 +125,18 @@ const Detail = () => {
               onMouseEnter={() => setShowInfo(true)}
               onMouseLeave={() => setShowInfo(false)}
               onClick={() => copyDeck()}
-              className={`copy ${showInfo ? "show__info" : ""}`}>
+              className={`tooltip ${showInfo ? "show__info" : ""}`}>
                 <MdContentCopy style={{cursor: "pointer"}}/>
                 <span>add this deck to your profile</span>
           </p>
           }
-        </header>
-        {
-          state.loading && <p>Loading...</p>
-        }
-          {state.flashcards.length ? 
+        </header>}
+        <p>{state.description}</p>
+         {state.loading && <Loader />}
+          {!state.loading &&
             <section className="detail__body">
+              {state.flashcards.length ?
+              <>
               <Slide flashcards={state.flashcards}/>
               <div className="container flashcards__container">
                   <h3>Flashcards in this deck</h3>
@@ -148,10 +144,12 @@ const Detail = () => {
                     {state.flashcards.map(flashcard => <Flashcard key={flashcard._id} {...flashcard} />)}
                   </div>
               </div>
-            </section>
-          :
-            <p className="info">No flashcards in this deck { user._id === state.author._id && <Link to={`/decks/${id}/edit`}>Add new</Link>}</p>
+              </>
+              :
+              <p className="info">No flashcards in this deck { user._id === state.author._id && <Link to={`/decks/${id}/edit`}>Add new</Link>}</p>
           }
+            </section>
+        }
          
     </div>
   )

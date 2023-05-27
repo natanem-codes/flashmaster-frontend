@@ -1,11 +1,15 @@
 import axios from "axios";
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useReducer } from "react";
+import { toast } from "react-toastify";
 
 
 const initialState =  {
     user: {
         _id: "",
         username: "",
+        firstName: "",
+        lastName: "",
+        favorites: [],
         token: "",
     },
     isLoggedIn: false,
@@ -31,6 +35,10 @@ const authReducer = (state, action) => {
         case "LOGOUT":
             localStorage.removeItem("userInfo")
             return initialState
+        case "ADD_FAVORITES":
+            newState = {...state,  user: {...state.user, favorites: action.payload}}
+            localStorage.setItem("userInfo", JSON.stringify(newState))
+            return newState
         default:
             return state
 }
@@ -45,6 +53,8 @@ const AuthContextProvider = ({children}) => {
         try {
             // const {data} = await axios.post("http://localhost:5000/auth/login", formData)
             const {data} = await axios.post("https://flashmaster-ps3e.onrender.com/auth/login", formData)
+            toast.success(`👋 Welcome, ${data.username}`)
+            console.log(data)
             dispatch({type: "LOGIN", payload: data})
         } catch (error) {
             console.log(error.message)
@@ -56,6 +66,7 @@ const AuthContextProvider = ({children}) => {
         try {
             // const {data} = await axios.post(`http://localhost:5000/auth/register`, formData)
             const {data} = await axios.post(`https://flashmaster-ps3e.onrender.com/auth/register`, formData)
+            toast.success(`👋 Welcome, ${data.username}`)
             dispatch({type: "LOGIN", payload: data})
         } catch (error) {
             console.log(error.message)
@@ -66,8 +77,18 @@ const AuthContextProvider = ({children}) => {
     const logout = () => {
         dispatch({type: "LOGOUT"})
     }
+    const addToFavorites = async (id) => {
+    //   const {data} = await axios.post(`http://localhost:5000/decks/${id}/addToFavorites`,{} ,{
+       const {data} = await axios.post(`https://flashmaster-ps3e.onrender.com/decks/${id}/addToFavorites`,{} ,{
+        headers: {
+          Authorization: `Bearer ${state.user.token}`
+        }
+      }
+      )
+      dispatch({type: "ADD_FAVORITES", payload: data})
+    }
     return (
-        <AuthContext.Provider value={{state, register, login, logout}}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{state, register, login, logout, addToFavorites}}>{children}</AuthContext.Provider>
     )
 }
 export default AuthContextProvider
